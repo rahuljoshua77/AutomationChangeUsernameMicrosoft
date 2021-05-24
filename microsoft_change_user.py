@@ -54,14 +54,19 @@ def manage_account():
     wait(browser,10).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[6]/div/div/div/div[2]/div[3]/div/div[3]/div[2]/div[2]/div/div/button"))).click()
     try:
         username_new = wait(browser,25).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[6]/div/div/div/div[2]/div[3]/div/div[3]/div[2]/div[2]/div[1]"))).text
-        print(f"[*] [ {email} ] Username Changed: [ {username_new} ]")
+        print(f"[*] [ {email} ] Username Change to [ {username_new} ]")
         wait(browser,10).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[6]/div/div/div/div[2]/div[3]/div[3]/div/div/button"))).click()
+        get_notif = wait(browser,45).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[6]/div/div/div/div[2]/div[3]/div[2]/div[2]/div[1]/div/div/div[2]/span/span"))).text
+        print(f"[*] [ {email} ] Status: {get_notif}")
+        
         with open('success.txt','a') as f:
             f.write('{0}|{1}\n'.format(username_new,password))
+        browser.quit()
     except:
         print(f"[*] [ {email} ] Failed Change Username!")
         with open('failed.txt','a') as f:
             f.write('{0}|{1}\n'.format(email,password))
+        browser.quit()
     # except: 
     #     print(f"[*] [ {email} ] Failed First Stage!") 
     #     with open('failed_first.txt','a') as f:
