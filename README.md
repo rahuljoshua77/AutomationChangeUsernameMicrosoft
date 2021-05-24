@@ -1,7 +1,7 @@
 
 # What is An Automation Change Username Microsoft?
 
-The tool that can A Tool can change username Microsoft with automation by using selenium.
+A Tool can change username Microsoft with automation by using selenium.
 
 Usage:
 
