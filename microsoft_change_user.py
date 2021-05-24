@@ -55,6 +55,7 @@ def manage_account():
     try:
         username_new = wait(browser,25).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[6]/div/div/div/div[2]/div[3]/div/div[3]/div[2]/div[2]/div[1]"))).text
         print(f"[*] [ {email} ] Username Changed: [ {username_new} ]")
+        wait(browser,10).until(EC.element_to_be_clickable((By.XPATH, "/html/body/div[6]/div/div/div/div[2]/div[3]/div[3]/div/div/button"))).click()
         with open('success.txt','a') as f:
             f.write('{0}|{1}\n'.format(username_new,password))
     except:
