@@ -42,7 +42,7 @@ def manage_account():
     wait(browser,30).until(EC.element_to_be_clickable((By.XPATH, "(//button[contains(text(),'Manage username and email')])[1]"))).click()
 
     sleep(1)
-    wait(browser,30).until(EC.element_to_be_clickable((By.XPATH, '//button[@data-automation-id="UserListV2,ManageUserEmailAliasesRegion,showPrimaryUPNEditStateIconButtonBtn"]'))).click()
+    wait(browser,30).until(EC.element_to_be_clickable((By.XPATH, '//button[@data-automation-id="UserDetailPanelRegion,ManageUserEmailAliasesRegion,showPrimaryUPNEditStateIconButtonBtn"]'))).click()
     username = wait(browser,15).until(EC.presence_of_element_located((By.XPATH, '//input[@aria-label="Primary UPN"]')))
     try:
         username.send_keys(Keys.CONTROL + "a")
@@ -52,21 +52,17 @@ def manage_account():
 
     username.send_keys(f"{get_random_string(5)}{random.randint(10,99)}{get_random_string(35)}")
     wait(browser,10).until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'Done')]"))).click()
-    try:
-        username_new = wait(browser,25).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class,'primaryUPNReadOnlyText')]"))).text
-        print(f"[*] [ {email} ] Username Change to [ {username_new} ]")
-        wait(browser,10).until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'Save changes')]"))).click()
-        get_notif = wait(browser,45).until(EC.presence_of_element_located((By.XPATH, "//span[contains(@class,'ms-MessageBar-innerText innerText-')]"))).text
-        print(f"[*] [ {email} ] Status: {get_notif}")
-        
-        with open('success.txt','a') as f:
-            f.write('{0}|{1}\n'.format(username_new,password))
-        browser.quit()
-    except:
-        print(f"[*] [ {email} ] Failed Change Username!")
-        with open('failed.txt','a') as f:
-            f.write('{0}|{1}\n'.format(email,password))
-        browser.quit()
+  
+    username_new = wait(browser,25).until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class,'primaryUPNReadOnlyText')]"))).text
+    print(f"[*] [ {email} ] Username Change to [ {username_new} ]")
+    wait(browser,10).until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'Save changes')]"))).click()
+    get_notif = wait(browser,45).until(EC.presence_of_element_located((By.XPATH, "//span[contains(@class,'ms-MessageBar-innerText innerText-')]"))).text
+    print(f"[*] [ {email} ] Status: {get_notif}")
+    
+    with open('success.txt','a') as f:
+        f.write('{0}|{1}\n'.format(username_new,password))
+    browser.quit()
+   
     # except: 
     #     print(f"[*] [ {email} ] Failed First Stage!") 
     #     with open('failed_first.txt','a') as f:
@@ -89,23 +85,30 @@ def open_browser(k):
 
     print(f"[*] [ {email} ] Trying to Login")
     
-    element = wait(browser,15).until(EC.presence_of_element_located((By.XPATH, "//input[@type='email']")))
-    element.send_keys(email)
-        
-    sleep(0.5)
-    element.send_keys(Keys.ENTER) 
-    element = wait(browser,15).until(EC.presence_of_element_located((By.XPATH, "//input[@type='password']")))
-    element.send_keys(password)
-        
-    sleep(0.5)
-    wait(browser,15).until(EC.presence_of_element_located((By.XPATH, "//input[contains(@value,'Sign in')]"))).click()
-    
     try:
-        wait(browser,30).until(EC.element_to_be_clickable((By.XPATH, "//input[contains(@value,'Yes')]"))).click()
+        element = wait(browser,15).until(EC.presence_of_element_located((By.XPATH, "//input[@type='email']")))
+        element.send_keys(email)
+            
+        sleep(0.5)
+        element.send_keys(Keys.ENTER) 
+        element = wait(browser,35).until(EC.presence_of_element_located((By.XPATH, "//input[@type='password']")))
+        element.send_keys(password)
+            
+        sleep(0.5)
+        wait(browser,15).until(EC.presence_of_element_located((By.XPATH, "//input[contains(@value,'Sign in')]"))).click()
+        
+        try:
+            wait(browser,30).until(EC.element_to_be_clickable((By.XPATH, "//input[contains(@value,'Yes')]"))).click()
 
+        except:
+            pass
+        
+        manage_account()
     except:
-        pass
-    manage_account()
+        print(f"[*] [ {email} ] Failed Change Username!")
+        with open('failed.txt','a') as f:
+            f.write('{0}|{1}\n'.format(email,password))
+        browser.quit()
 
 if __name__ == '__main__':
     global list_accountsplit
