@@ -104,8 +104,8 @@ def open_browser(k):
             pass
         
         manage_account()
-    except:
-        print(f"[*] [ {email} ] Failed Change Username!")
+    except Exception as e:
+        print(f"[*] [ {email} ] Failed Change Username! Eror [{e}] ")
         with open('failed.txt','a') as f:
             f.write('{0}|{1}\n'.format(email,password))
         browser.quit()
