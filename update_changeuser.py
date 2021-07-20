@@ -35,11 +35,11 @@ def get_random_string(length):
 def manage_account():
     # try:
     
-    wait(browser,30).until(EC.element_to_be_clickable((By.XPATH, "(//button[@data-automation-id='MoreActionsQuick'])[1]"))).click()
+    wait(browser,45).until(EC.presence_of_element_located((By.XPATH, "//span[contains(text(),'Communications Credits')][contains(text(),'Office 365 E5')]"))).click()
     print(f"[*] [ {email} ] Success Login")
     print(f"[*] [ {email} ] Trying to Change Username")
     sleep(1)
-    wait(browser,30).until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'Manage username and email')]"))).click()
+    wait(browser,30).until(EC.element_to_be_clickable((By.XPATH, "(//button[contains(text(),'Manage username and email')])[1]"))).click()
 
     sleep(1)
     wait(browser,30).until(EC.element_to_be_clickable((By.XPATH, '//button[@data-automation-id="UserListV2,ManageUserEmailAliasesRegion,showPrimaryUPNEditStateIconButtonBtn"]'))).click()
